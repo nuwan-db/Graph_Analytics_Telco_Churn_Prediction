@@ -20,13 +20,13 @@ Databricks provides a platform for advanced analytics, including graph analytics
 
 ## Graph options with Databricks
 
-####GraphFrames
+### GraphFrames
 - DataFrame-based successor to Apache Spark GraphX
 - E.g., AstraZeneca: [Building a Knowledge Graph with Spark and NLP: How We Recommend Novel Drugs to our Scientists](https://databricks.com/session_eu19/building-a-knowledge-graph-with-spark-and-nlp-how-we-recommend-novel-drugs-to-our-scientists)
 
-####DataFrames
+### DataFrames
 - DIY: Many graph algorithms can be implemented via DataFrame joins.
 - E.g., Paypal: [Optimize the Large Scale Graph Applications by using Apache Spark with 4-5x Performance Improvements](https://databricks.com/session_na20/optimize-the-large-scale-graph-applications-by-using-apache-spark-with-4-5x-performance-improvements)
 
-####3rd-party graph libraries
+### 3rd-party graph libraries
 - E.g., NetworkX, Neo4J, TigerGraph, etc.
