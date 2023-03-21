@@ -221,9 +221,9 @@ fs.write_table(df=graph_features_df, name=f'{dbName}.telco_churn_graph_features'
 # COMMAND ----------
 
 # MAGIC %md 
-# MAGIC ### Using the generated notebook to build our model
+# MAGIC ### Using Databricks AutoML to build our model
 # MAGIC 
-# MAGIC Next step: [Explore the generated Auto-ML notebook]($./02_automl_baseline)
+# MAGIC Next step: [Churn preiction model using AutoML]($./05_automl_churn_prediction)
 
 # COMMAND ----------
 

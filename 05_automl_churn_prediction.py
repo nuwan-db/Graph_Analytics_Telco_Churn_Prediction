@@ -59,3 +59,10 @@ summary = automl.classify(
     primary_metric="roc_auc",
     timeout_minutes=5
 )
+
+# COMMAND ----------
+
+# MAGIC %md 
+# MAGIC ### Using the generated notebook to build our model
+# MAGIC 
+# MAGIC Next step: [Explore the generated Auto-ML notebook]($./06_automl_generated_notebook)

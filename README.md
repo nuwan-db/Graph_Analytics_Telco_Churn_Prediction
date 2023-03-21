@@ -16,7 +16,7 @@ Databricks provides a platform for advanced analytics, including graph analytics
 
 ## OLTP vs OLAP
 
-<img src="https://github.com/nuwan-db/Graph_Analytics_Telco_Churn_Prediction/blob/dev/_resources/Images/OLTP_vs_OLAP.png?raw=true" width="1000" />
+<img src="https://github.com/nuwan-db/Graph_Analytics_Telco_Churn_Prediction/blob/dev/_resources/images/OLTP_vs_OLAP.png?raw=true" width="1000"/>
 
 ## Graph options with Databricks
 

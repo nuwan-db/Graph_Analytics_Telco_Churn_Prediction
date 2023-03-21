@@ -15,7 +15,7 @@
 # COMMAND ----------
 
 from functools import reduce
-from pyspark.sql.functions import col, udf, lit, when
+from pyspark.sql.functions import col, udf, lit, when, DataFrame, collect_set, concat, array_distinct
 from graphframes import *
 from pyspark.sql.types import *
 from math import comb
@@ -109,6 +109,24 @@ display(g.vertices)
 # COMMAND ----------
 
 display(g.edges)
+
+# COMMAND ----------
+
+# MAGIC %md ## Neighbors
+# MAGIC 
+# MAGIC Return the list of neighbors for each vertex:
+
+# COMMAND ----------
+
+def neighbors(g: GraphFrame) -> DataFrame:
+    # Here we have to consider connections in both directions
+    df = g.edges.groupBy('src').agg(collect_set('dst').alias('neighbors_dst')).withColumnRenamed('src','id')
+    df1 = g.edges.groupBy('dst').agg(collect_set('src').alias('neighbors_src')).withColumnRenamed('dst','id')
+    return df.join(df1, on='id', how="full")\
+             .withColumn('neighbors', array_distinct(concat(col('neighbors_dst'), col('neighbors_src'))))\
+             .select('id','neighbors')
+
+display(neighbors(g))
 
 # COMMAND ----------
 
@@ -320,7 +338,7 @@ display(result)
 # MAGIC 
 # MAGIC The PageRank score of a node can be used to rank the nodes in the graph by importance or centrality. Nodes with higher PageRank scores are considered to be more important or central to the graph. The PageRank algorithm is widely used in network analysis and information retrieval, and has been extended to many other applications beyond the web.
 # MAGIC 
-# MAGIC <img src="https://github.com/nuwan-db/telco_churn_graph_analytics/blob/main/pagerank.png?raw=true" width="600" />
+# MAGIC <img src="https://github.com/nuwan-db/Graph_Analytics_Telco_Churn_Prediction/blob/dev/_resources/images/pagerank.png?raw=true" width="600" />
 
 # COMMAND ----------
 
@@ -381,7 +399,7 @@ display(trian_count)
 # MAGIC 
 # MAGIC Example:
 # MAGIC 
-# MAGIC <img src="https://github.com/nuwan-db/telco_churn_graph_analytics/blob/main/clustering_coefficient.png?raw=true" width="800" />
+# MAGIC <img src="https://github.com/nuwan-db/Graph_Analytics_Telco_Churn_Prediction/blob/dev/_resources/images/clustering_coefficient.png?raw=true" width="800" />
 
 # COMMAND ----------
 

@@ -119,7 +119,7 @@ fig.show()
 # MAGIC 
 # MAGIC 
 # MAGIC Example: A visualization of 20% of the telco customer network using [Graphistry Python library](https://github.com/graphistry/pygraphistry/blob/master/demos/demos_databases_apis/databricks_pyspark/graphistry-notebook-dashboard.ipynb):
-# MAGIC <img src="https://github.com/nuwan-db/telco_churn_graph_analytics/blob/main/Telco_network_viz_20pcn.png?raw=true" width="1000" />
+# MAGIC <img src="https://github.com/nuwan-db/Graph_Analytics_Telco_Churn_Prediction/blob/dev/_resources/images/Telco_network_viz_20pcn.png?raw=true" width="1000" />
 
 # COMMAND ----------
 
@@ -206,7 +206,7 @@ edge_df.write.mode("overwrite").option("overwriteSchema", "true").saveAsTable("t
 # MAGIC Our next job is to  prepare a set of features that we'll be able to use in customer churn prediction and other data science projects.
 # MAGIC 
 # MAGIC 
-# MAGIC Next: [Feature engineering]($./03_customer_feature_engineering)
+# MAGIC Next: [Customer feature engineering]($./03_customer_feature_engineering)
 
 # COMMAND ----------
 
