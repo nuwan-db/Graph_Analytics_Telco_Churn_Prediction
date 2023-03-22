@@ -20,6 +20,8 @@ from graphframes import *
 from pyspark.sql.types import *
 from math import comb
 import networkx as nx
+from warnings import filterwarnings
+filterwarnings('ignore', 'DataFrame.sql_ctx is an internal property')
 
 # COMMAND ----------
 
@@ -223,8 +225,7 @@ def cumFriends(cnt, edge):
 
 #  (b) Use sequence operation to apply method to sequence of elements in motif.
 #   In this case, the elements are the 3 edges.
-edges = ["ab", "bc", "cd"]
-numFriends = reduce(cumFriends, edges, lit(0))
+numFriends = reduce(cumFriends, ["ab", "bc", "cd"], lit(0))
     
 chainWith2Friends2 = chain4.withColumn("num_friends", numFriends).where(numFriends >= 2)
 display(chainWith2Friends2)
@@ -446,12 +447,12 @@ display(custer_df)
 from graphframes.lib import Pregel
 
 numVertices = vertices.count()
-vertices = g.outDegrees
-graph = GraphFrame(vertices, edges)
+vertices_od = g.outDegrees
+graph = GraphFrame(vertices_od, edges)
 
 alpha = 0.15
 ranks = graph.pregel \
-        .setMaxIter(5) \  #You can control the number of iterations by setMaxIter() and check API docs for advanced controls.
+        .setMaxIter(5) \
         .withVertexColumn("rank", lit(1.0 / numVertices), \
             coalesce(Pregel.msg(), lit(0.0)) * lit(1.0 - alpha) + lit(alpha / numVertices)) \
         .sendMsgToDst(Pregel.src("rank") / Pregel.src("outDegree")) \
