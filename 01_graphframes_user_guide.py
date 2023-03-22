@@ -428,6 +428,18 @@ display(custer_df)
 
 # MAGIC %md
 # MAGIC ##Pregel-like bulk-synchronous message-passing API based on DataFrame operations
+# MAGIC 
+# MAGIC See [Malewicz et al., Pregel: a system for large-scale graph processing](https://dl.acm.org/doi/10.1145/1807167.1807184) for a detailed description of the Pregel algorithm.
+# MAGIC 
+# MAGIC You can construct a Pregel instance using either this constructor or graphframes.GraphFrame.pregel, then use builder pattern to describe the operations, and then call run() to start a run. It returns a DataFrame of vertices from the last iteration.
+# MAGIC 
+# MAGIC When a run starts, it expands the vertices DataFrame using column expressions defined by withVertexColumn(). Those additional vertex properties can be changed during Pregel iterations. In each Pregel iteration, there are three phases:
+# MAGIC 
+# MAGIC  - Given each edge triplet, generate messages and specify target vertices to send, described by sendMsgToDst() and sendMsgToSrc().
+# MAGIC  - Aggregate messages by target vertex IDs, described by aggMsgs().
+# MAGIC  - Update additional vertex properties based on aggregated messages and states from previous iteration, described by withVertexColumn().
+# MAGIC 
+# MAGIC Please find what columns you can reference at each phase in the method [API docs](https://graphframes.github.io/graphframes/docs/_site/api/python/graphframes.lib.html).
 
 # COMMAND ----------
 
@@ -439,7 +451,7 @@ graph = GraphFrame(vertices, edges)
 
 alpha = 0.15
 ranks = graph.pregel \
-        .setMaxIter(5) \
+        .setMaxIter(5) \  #You can control the number of iterations by setMaxIter() and check API docs for advanced controls.
         .withVertexColumn("rank", lit(1.0 / numVertices), \
             coalesce(Pregel.msg(), lit(0.0)) * lit(1.0 - alpha) + lit(alpha / numVertices)) \
         .sendMsgToDst(Pregel.src("rank") / Pregel.src("outDegree")) \
@@ -456,10 +468,6 @@ display(ranks)
 # MAGIC 
 # MAGIC 
 # MAGIC Next: [Exploratory Data Analysis]($./02_exploratory_data_analysis)
-
-# COMMAND ----------
-
-vertices
 
 # COMMAND ----------
 
