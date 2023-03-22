@@ -430,17 +430,11 @@ display(custer_df)
 # MAGIC %md
 # MAGIC ##Pregel-like bulk-synchronous message-passing API based on DataFrame operations
 # MAGIC 
-# MAGIC See [Malewicz et al., Pregel: a system for large-scale graph processing](https://dl.acm.org/doi/10.1145/1807167.1807184) for a detailed description of the Pregel algorithm.
+# MAGIC Below is an implementation of the PageRank algorithm using GraphFrames and Pregel. See [Malewicz et al., Pregel: a system for large-scale graph processing](https://dl.acm.org/doi/10.1145/1807167.1807184) for a detailed description of the Pregel algorithm.
 # MAGIC 
-# MAGIC You can construct a Pregel instance using either this constructor or graphframes.GraphFrame.pregel, then use builder pattern to describe the operations, and then call run() to start a run. It returns a DataFrame of vertices from the last iteration.
+# MAGIC The alpha value is set to 0.15, which is a damping factor used in the PageRank algorithm. The pregel function is then called on the graph object to perform the PageRank algorithm. This function takes several arguments to configure the algorithm, including the maximum number of iterations, the initial vertex values, the message sending function, the message aggregation function, and whether to cache the graph during computation.
 # MAGIC 
-# MAGIC When a run starts, it expands the vertices DataFrame using column expressions defined by withVertexColumn(). Those additional vertex properties can be changed during Pregel iterations. In each Pregel iteration, there are three phases:
-# MAGIC 
-# MAGIC  - Given each edge triplet, generate messages and specify target vertices to send, described by sendMsgToDst() and sendMsgToSrc().
-# MAGIC  - Aggregate messages by target vertex IDs, described by aggMsgs().
-# MAGIC  - Update additional vertex properties based on aggregated messages and states from previous iteration, described by withVertexColumn().
-# MAGIC 
-# MAGIC Please find what columns you can reference at each phase in the method [API docs](https://graphframes.github.io/graphframes/docs/_site/api/python/graphframes.lib.html).
+# MAGIC In this implementation, the algorithm is run for a maximum of 5 iterations. You can control the number of iterations by setMaxIter() and [API docs](https://graphframes.github.io/graphframes/docs/_site/api/python/graphframes.lib.html) docs for advanced controls. The initial vertex values are set to 1.0 divided by the total number of vertices in the graph. The message sending function sends each vertex's current rank divided by its outDegree to its neighboring vertices. The message aggregation function sums up all the incoming messages for each vertex. Finally, the run() function executes the algorithm and returns a DataFrame of vertex IDs and their PageRank values.
 
 # COMMAND ----------
 
