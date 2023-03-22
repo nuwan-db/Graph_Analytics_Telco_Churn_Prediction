@@ -15,7 +15,7 @@
 # COMMAND ----------
 
 from functools import reduce
-from pyspark.sql.functions import col, udf, lit, when, DataFrame, collect_set, concat, array_distinct
+from pyspark.sql.functions import col, udf, lit, when, DataFrame, collect_set, concat, array_distinct, coalesce, sum
 from graphframes import *
 from pyspark.sql.types import *
 from math import comb
@@ -426,12 +426,40 @@ display(custer_df)
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC ##Pregel-like bulk-synchronous message-passing API based on DataFrame operations
+
+# COMMAND ----------
+
+from graphframes.lib import Pregel
+
+numVertices = vertices.count()
+vertices = g.outDegrees
+graph = GraphFrame(vertices, edges)
+
+alpha = 0.15
+ranks = graph.pregel \
+        .setMaxIter(5) \
+        .withVertexColumn("rank", lit(1.0 / numVertices), \
+            coalesce(Pregel.msg(), lit(0.0)) * lit(1.0 - alpha) + lit(alpha / numVertices)) \
+        .sendMsgToDst(Pregel.src("rank") / Pregel.src("outDegree")) \
+        .aggMsgs(sum(Pregel.msg())) \
+        .run()
+
+display(ranks)
+
+# COMMAND ----------
+
 # MAGIC %md 
 # MAGIC ## Exploratory Data Analysis
 # MAGIC Our first job is to analyze and understand the data.
 # MAGIC 
 # MAGIC 
 # MAGIC Next: [Exploratory Data Analysis]($./02_exploratory_data_analysis)
+
+# COMMAND ----------
+
+vertices
 
 # COMMAND ----------
 
