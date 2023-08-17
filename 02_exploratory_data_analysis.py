@@ -31,14 +31,12 @@ def draw_network(g, directed=False, with_labels=True, node_color='#F39C12'):
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ### Loading Data
+# MAGIC ### Data Sources
 # MAGIC 
-# MAGIC The data is provided by Home Credit, a service dedicated to provided lines of credit (loans) to the unbanked population. Predicting whether or not a client will repay a loan or have difficulty is a critical business need, and Home Credit is hosting this competition on Kaggle to see what sort of models the machine learning community can develop to help them in this task.
+# MAGIC There are different data sources used in this solution accelerator:
 # MAGIC 
-# MAGIC There are different sources of data:
-# MAGIC 
-# MAGIC - **application_train/application_test**: the main training and testing data with information about each loan application at Home Credit. Every loan has its own row and is identified by the feature SK_ID_CURR. The training application data comes with the TARGET indicating 0: the loan was repaid or 1: the loan was not repaid.
-# MAGIC - **bureau**: data concerning client's previous credits from other financial institutions. Each previous credit has its own row in bureau, but one loan in the application data can have multiple previous credits.
+# MAGIC - **telco churn customer data**: This is mainly based on [IBM's telco customer churn dataset](https://github.com/IBM/telco-customer-churn-on-icp4d). Some preprocessing of the data has been done as below and artificially generated customer mobile phone numbers has been added as an additional data filed.
+# MAGIC - **telco call log data**: The customer call log data has been intentionally fabricated in such a way that the call network graph exhibits the characteristics of a scale-free distribution.
 
 # COMMAND ----------
 
